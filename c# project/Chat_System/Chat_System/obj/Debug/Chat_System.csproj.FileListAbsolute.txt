@@ -1,0 +1,12 @@
+C:\Users\Nelaka\source\repos\Chat_System\Chat_System\obj\Debug\Chat_System.csprojAssemblyReference.cache
+C:\Users\Nelaka\source\repos\Chat_System\Chat_System\obj\Debug\Chat_System.Form1.resources
+C:\Users\Nelaka\source\repos\Chat_System\Chat_System\obj\Debug\Chat_System.Main.resources
+C:\Users\Nelaka\source\repos\Chat_System\Chat_System\obj\Debug\Chat_System.Properties.Resources.resources
+C:\Users\Nelaka\source\repos\Chat_System\Chat_System\obj\Debug\Chat_System.SignUp.resources
+C:\Users\Nelaka\source\repos\Chat_System\Chat_System\obj\Debug\Chat_System.csproj.GenerateResource.cache
+C:\Users\Nelaka\source\repos\Chat_System\Chat_System\obj\Debug\Chat_System.csproj.CoreCompileInputs.cache
+C:\Users\Nelaka\source\repos\Chat_System\Chat_System\bin\Debug\Chat_System.exe.config
+C:\Users\Nelaka\source\repos\Chat_System\Chat_System\bin\Debug\Chat_System.exe
+C:\Users\Nelaka\source\repos\Chat_System\Chat_System\bin\Debug\Chat_System.pdb
+C:\Users\Nelaka\source\repos\Chat_System\Chat_System\obj\Debug\Chat_System.exe
+C:\Users\Nelaka\source\repos\Chat_System\Chat_System\obj\Debug\Chat_System.pdb
