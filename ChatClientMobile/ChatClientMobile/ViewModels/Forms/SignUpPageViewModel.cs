@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Acr.UserDialogs;
+using System;
 using System.Net.Http;
 using System.Text;
 using Xamarin.Forms;
@@ -149,7 +150,7 @@ namespace ChatClientMobile.ViewModels.Forms
                     "\"lastName\": \"" + this.lastName + "\"," +
                     "\"email\": \"" + base.Email + "\"," +
                     "\"phone\":  \"" + this.phone + "\"," +
-                    "\"image\":  \"https://avatar.oxro.io/avatar.svg?name=" + this.firstName + "+" + this.lastName + "\"," +
+                    "\"image\":  \"https://avatar.oxro.io/avatar.jpg?name=" + this.firstName + "+" + this.lastName + "\"," +
                     "\"password\": \"" + this.password + "\"" +
                     "}";
                 var url = new Uri(App.BaseApiUrl + "/users");
@@ -181,6 +182,10 @@ namespace ChatClientMobile.ViewModels.Forms
         private void SignUpClicked(object obj)
         {
             // Do something
+            var toastConfig = new ToastConfig("Please wait...");
+            toastConfig.SetDuration(3000);
+            toastConfig.SetBackgroundColor(System.Drawing.Color.FromArgb(12, 131, 193));
+            UserDialogs.Instance.Toast(toastConfig);
             this.addUser();
         }
 

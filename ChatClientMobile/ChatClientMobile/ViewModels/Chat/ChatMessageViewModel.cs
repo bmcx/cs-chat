@@ -24,7 +24,7 @@ namespace ChatClientMobile.ViewModels.Chat
         /// <summary>
         /// Stores the message text in an array. 
         /// </summary>
-        private readonly string[] descriptions = { "Hi, can you tell me the specifications of the Dell Inspiron 5370 laptop?",
+        /*private readonly string[] descriptions = { "Hi, can you tell me the specifications of the Dell Inspiron 5370 laptop?",
             " * Processor: Intel Core i5-8250U processor " +
             "\n" + " * OS: Pre-loaded Windows 10 with lifetime validity" +
             "\n" + " * Display: 13.3-inch FHD (1920 x 1080) LED display" +
@@ -32,7 +32,7 @@ namespace ChatClientMobile.ViewModels.Chat
             "\n" + " * Battery: Lithium battery",
             "How much battery life does it have with wifi and without?",
             "Approximately 5 hours with wifi. About 7 hours without.",
-        };
+        };*/
 
         private string profileName;
 
@@ -220,13 +220,13 @@ namespace ChatClientMobile.ViewModels.Chat
                 var textMsg = new ChatMessage
                 {
                     Message = single.Body,
-                    Time = single.TimeStamp,
+                    Time = single.TimeStamp.ToLocalTime(),
                     IsReceived = single.SenderId == 1? (imOwner? true: false) : (!imOwner ? true : false),
                 };
                 var imageMsg = new ChatMessage
                 {
                     ImagePath = single.imagePath,
-                    Time = single.TimeStamp,
+                    Time = single.TimeStamp.ToLocalTime(),
                     IsReceived = single.SenderId == 1 ? (imOwner ? true : false) : (!imOwner ? true : false),
                 };
 
@@ -245,7 +245,7 @@ namespace ChatClientMobile.ViewModels.Chat
                 "\"senderId\": "+(imOwner?"0":"1")+"," +
                 "\"body\": \""+ message +"\"," +
                 "\"type\": 1," +
-                "\"timeStamp\": \""+DateTime.Now.ToString("o")+ "\"" +
+                "\"timeStamp\": \""+DateTime.UtcNow.ToString("o")+ "\"" +
                 "}";
             var url = new Uri(App.BaseApiUrl + "/messages");
             HttpContent c = new StringContent(payload, Encoding.UTF8, "application/json");
@@ -266,7 +266,7 @@ namespace ChatClientMobile.ViewModels.Chat
                 "\"lastMessage\": \"" + message + "\"," +
                 "\"lastMessageBy\": " + (imOwner ? "1" : "0") + "," +
                 "\"lastMessageType\": 1," +
-                "\"lastMessageAt\": \"" + DateTime.Now.ToString("o") + "\"" +
+                "\"lastMessageAt\": \"" + DateTime.UtcNow.ToString("o") + "\"" +
                 "}";
             var url = new Uri(App.BaseApiUrl + "/chats/" + this.chatId.ToString());
             HttpContent c = new StringContent(payload, Encoding.UTF8, "application/json");
@@ -282,7 +282,7 @@ namespace ChatClientMobile.ViewModels.Chat
         private async void GenerateMessageInfo()
         {
             await Task.Delay(TimeSpan.FromSeconds(5));
-            var currentTime = DateTime.Now;
+            var currentTime = DateTime.UtcNow;
             this.ChatMessageInfo = new ObservableCollection<ChatMessage>
             {
                  new ChatMessage
@@ -387,7 +387,7 @@ namespace ChatClientMobile.ViewModels.Chat
                 this.ChatMessageInfo.Add(new ChatMessage
                 {
                     Message = this.NewMessage.Trim(),
-                    Time = DateTime.Now
+                    Time = DateTime.UtcNow
                 });
 
                 this.sendMessage(this.newMessage.Trim());

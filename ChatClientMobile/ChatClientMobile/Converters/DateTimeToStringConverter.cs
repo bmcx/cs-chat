@@ -21,7 +21,7 @@ namespace ChatClientMobile.Converters
         /// <returns>Returns the string.</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var currentTime = DateTime.Now;
+            var currentTime = DateTime.UtcNow;
             var dateTime = (DateTime)value;
 
             if (dateTime.Day == currentTime.Day)

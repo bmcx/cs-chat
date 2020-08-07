@@ -79,6 +79,11 @@ namespace ChatApi
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
+            var res = await _context.User.Where(u => u.Email == user.Email).ToListAsync();
+            if(res.Count>= 1)
+            {
+                return BadRequest();
+            }
             _context.User.Add(user);
             await _context.SaveChangesAsync();
 

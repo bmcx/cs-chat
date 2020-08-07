@@ -19,13 +19,13 @@ namespace ChatClientMobile.Helpers
         /// <returns>A friendly string</returns>
         public static string GetFriendlyRelativeTime(DateTime dateTime)
         {
-            if (DateTime.Now.Ticks == dateTime.Ticks)
+            if (DateTime.UtcNow.Ticks == dateTime.Ticks)
             {
                 return "Right now!";
             }
 
-            bool isFuture = (DateTime.Now.Ticks < dateTime.Ticks);
-            var ts = DateTime.Now.Ticks < dateTime.Ticks ? new TimeSpan(dateTime.Ticks - DateTime.Now.Ticks) : new TimeSpan(DateTime.Now.Ticks - dateTime.Ticks);
+            bool isFuture = (DateTime.UtcNow.Ticks < dateTime.Ticks);
+            var ts = DateTime.UtcNow.Ticks < dateTime.Ticks ? new TimeSpan(dateTime.Ticks - DateTime.UtcNow.Ticks) : new TimeSpan(DateTime.UtcNow.Ticks - dateTime.Ticks);
 
             double delta = ts.TotalSeconds;
 

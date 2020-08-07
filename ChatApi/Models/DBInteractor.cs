@@ -26,10 +26,10 @@ namespace ChatApi.Models
             new User() { Id = 3, FirstName = "abc", LastName = "xyz", Email = "alphabet@gmail.com", Image = "https://randomuser.me/api/portraits/men/52.jpg", Phone = "+94711526501", Password = "1234" }
             );
             modelBuilder.Entity<Message>().HasData(
-            new Message() { Id = 1, Body = "hello", ChatId = 1, SenderId = 1, TimeStamp = DateTime.Now, Type = 1  }
+            new Message() { Id = 1, Body = "hello", ChatId = 1, SenderId = 1, TimeStamp = DateTime.UtcNow, Type = 1  }
             );
             modelBuilder.Entity<Chat>().HasData(
-            new Chat() { Id = 1, FriendId = 2, OwnerId = 1, LastMessage = "hello", LastMessageType = 1, LastMessageAt = DateTime.Now, LastMessageBy = 1}
+            new Chat() { Id = 1, FriendId = 2, OwnerId = 1, LastMessage = "hello", LastMessageType = 1, LastMessageAt = DateTime.UtcNow, LastMessageBy = 1}
             );
         }
     }

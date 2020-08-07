@@ -22,7 +22,7 @@ namespace ChatClientMobile.ViewModels.Chat
 
         private ObservableCollection<ChatDetail> chatItems;
 
-        private string profileImage;
+        private string profileImage = "https://randomuser.me/api/portraits/men/72.jpg";
 
         private Command itemSelectedCommand;
 
@@ -34,8 +34,8 @@ namespace ChatClientMobile.ViewModels.Chat
         /// </summary>
         public RecentChatViewModel()
         {
-
-            profileImage = Application.Current.Properties["userImage"].ToString();
+            var userImage = Application.Current.Properties["userImage"];
+            profileImage = userImage.ToString();
             this.ChatItems = new ObservableCollection<ChatDetail>
             {
                 /* new ChatDetail
@@ -282,7 +282,6 @@ namespace ChatClientMobile.ViewModels.Chat
         {
             Device.StartTimer(TimeSpan.FromSeconds(5), () =>
             {
-
                 fetchChatList();
                 return true; // True = Repeat again, False = Stop the timer
             });
@@ -291,9 +290,9 @@ namespace ChatClientMobile.ViewModels.Chat
         private async void fetchChatList()
         {
             var httpClient = new HttpClient();
-            var response = await httpClient.GetStringAsync(App.BaseApiUrl + "/chats");
-            var chatList = JsonConvert.DeserializeObject<List<RestChatModel>>(response);
             var myId = Application.Current.Properties["userID"].ToString();
+            var response = await httpClient.GetStringAsync(App.BaseApiUrl + "/chats/"+myId.ToString());
+            var chatList = JsonConvert.DeserializeObject<List<RestChatModel>>(response);
             var _chatItemsNew = new ObservableCollection<ChatDetail> { };
             foreach (var singleChat in chatList)
             {

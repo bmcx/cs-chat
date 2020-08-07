@@ -12,9 +12,9 @@
     xmlns:local="clr-namespace:ChatClientMobile.Views.Forms"
     xmlns:viewModel="clr-namespace:ChatClientMobile.ViewModels.Forms"
     Title="Sign Up"
-    BackgroundImageSource="{core:OnPlatformOrientationStringValue Default=LoginBackground.png,
-                                                                  iOSPhoneLandscape=LoginBackground-Landscape.png,
-                                                                  iOSTabletLandscape=LoginBackground-Landscape.png}"
+    BackgroundImageSource="{core:OnPlatformOrientationStringValue Default=LoginBackgrnd.png,
+                                                                  iOSPhoneLandscape=LoginBackgrnd-Landscape.png,
+                                                                  iOSTabletLandscape=LoginBackgrnd-Landscape.png}"
     NavigationPage.HasNavigationBar="False"
     Style="{StaticResource ContentPageStyle}">
 

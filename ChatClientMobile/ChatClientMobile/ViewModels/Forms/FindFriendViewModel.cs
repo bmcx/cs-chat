@@ -85,7 +85,7 @@ namespace ChatClientMobile.ViewModels.Forms
                 "\"lastMessage\": \"" + "New Conveersation" + "\"," +
                 "\"lastMessageBy\": " + "0" + "," +
                 "\"lastMessageType\": 1," +
-                "\"lastMessageAt\": \"" + DateTime.Now.ToString("o") + "\"" +
+                "\"lastMessageAt\": \"" + DateTime.UtcNow.ToString("o") + "\"" +
                 "}";
             var url = new Uri(App.BaseApiUrl + "/chats");
             HttpContent c = new StringContent(payload, Encoding.UTF8, "application/json");

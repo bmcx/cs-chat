@@ -58,7 +58,7 @@
                             <Image.Source>
                                 <UriImageSource Uri="{Binding ProfileImage}" 
 			                                 CacheValidity="14" 
-			                                 CachingEnabled="true"/>
+			                                 CachingEnabled="false"/>
                             </Image.Source>
                         </Image>
                     </border:SfBorder>

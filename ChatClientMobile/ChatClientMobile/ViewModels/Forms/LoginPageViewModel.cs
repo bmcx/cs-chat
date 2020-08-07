@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
@@ -33,6 +34,11 @@ namespace ChatClientMobile.ViewModels.Forms
             this.LoginCommand = new Command(this.LoginClicked);
             this.SignUpCommand = new Command(this.SignUpClicked);
             this.ForgotPasswordCommand = new Command(this.ForgotPasswordClicked);
+            Application.Current.Properties["userEmail"] ="";
+            Application.Current.Properties["userID"] ="";
+            Application.Current.Properties["userImage"] = "";
+            Application.Current.Properties["userFullName"] = "";
+            Application.Current.Properties["userPhone"] = "";
         }
 
         #endregion
@@ -91,15 +97,30 @@ namespace ChatClientMobile.ViewModels.Forms
         private async void LoginClicked(object obj)
         {
 
-            var toastConfig = new ToastConfig("Please wait...");
-            toastConfig.SetDuration(3000);
-            toastConfig.SetBackgroundColor(System.Drawing.Color.FromArgb(12, 131, 193));
-            UserDialogs.Instance.Toast(toastConfig);
-            checkCreds();
+           
+            var current = Connectivity.NetworkAccess;
+
+            if (current == NetworkAccess.Internet)
+            {
+                var toastConfig = new ToastConfig("Please wait...");
+                toastConfig.SetDuration(3000);
+                toastConfig.SetBackgroundColor(System.Drawing.Color.FromArgb(12, 131, 193));
+                UserDialogs.Instance.Toast(toastConfig);
+                checkCreds();
+            }
+            else
+            {
+                var toastConfig = new ToastConfig("Please check your internet connection!");
+                toastConfig.SetDuration(3000);
+                toastConfig.SetBackgroundColor(System.Drawing.Color.FromArgb(242, 76, 101));
+                UserDialogs.Instance.Toast(toastConfig);
+            }
+            
 
         }
         private async void checkCreds()
         {
+
             try
             {
                 var httpClient = new HttpClient();
@@ -110,6 +131,7 @@ namespace ChatClientMobile.ViewModels.Forms
                 var url = new Uri(App.BaseApiUrl + "/users/login");
                 HttpContent c = new StringContent(payload, Encoding.UTF8, "application/json");
                 HttpResponseMessage result = await httpClient.PostAsync(url, c);
+                System.Diagnostics.Debug.WriteLine(result.Content.ReadAsStringAsync().Result);
                 var users = JsonConvert.DeserializeObject<List<RestUserModel>>(result.Content.ReadAsStringAsync().Result);
                 if (users.Count == 1)
                 {
@@ -119,6 +141,7 @@ namespace ChatClientMobile.ViewModels.Forms
                     Application.Current.Properties["userFullName"] = users[0].FirstName + " " + users[0].LastName;
                     Application.Current.Properties["userPhone"] = users[0].Phone;
                     await Application.Current.SavePropertiesAsync();
+                    await Task.Delay(2000);
                     await Application.Current.MainPage.Navigation.PushAsync(recentChatPage);
                 }
                 else
@@ -128,11 +151,11 @@ namespace ChatClientMobile.ViewModels.Forms
                     toastConfig.SetBackgroundColor(System.Drawing.Color.FromArgb(242, 76, 101));
                     UserDialogs.Instance.Toast(toastConfig);
                 }
-                
+
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine(e.Message);
+                System.Diagnostics.Debug.WriteLine("E: "+e);
             }
 
 
