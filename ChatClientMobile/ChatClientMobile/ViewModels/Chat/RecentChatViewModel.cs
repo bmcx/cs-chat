@@ -22,9 +22,12 @@ namespace ChatClientMobile.ViewModels.Chat
 
         private ObservableCollection<ChatDetail> chatItems;
 
-        private string profileImage = "https://randomuser.me/api/portraits/men/72.jpg";
+        private string profileImage;
 
         private Command itemSelectedCommand;
+
+        private string myId = "-1";
+        private bool isVisible;
 
         #endregion
 
@@ -34,8 +37,8 @@ namespace ChatClientMobile.ViewModels.Chat
         /// </summary>
         public RecentChatViewModel()
         {
-            var userImage = Application.Current.Properties["userImage"];
-            profileImage = userImage.ToString();
+            myId = Application.Current.Properties["userID"].ToString();
+            profileImage = Application.Current.Properties["userImage"].ToString();
             this.ChatItems = new ObservableCollection<ChatDetail>
             {
                 /* new ChatDetail
@@ -193,6 +196,7 @@ namespace ChatClientMobile.ViewModels.Chat
             this.ShowSettingsCommand = new Command(this.SettingsClicked);
             this.MenuCommand = new Command(this.MenuClicked);
             this.ProfileImageCommand = new Command(this.ProfileImageClicked);
+
             this.fetchChatList();
             this.startTimer();
         }
@@ -213,6 +217,19 @@ namespace ChatClientMobile.ViewModels.Chat
             set
             {
                 this.profileImage = value;
+                this.NotifyPropertyChanged();
+            }
+        }
+        public bool IsVisible
+        {
+            get
+            {
+                return this.isVisible;
+            }
+
+            set
+            {
+                this.isVisible = value;
                 this.NotifyPropertyChanged();
             }
         }
@@ -278,7 +295,7 @@ namespace ChatClientMobile.ViewModels.Chat
         #endregion
 
         #region Methods
-        private async void startTimer()
+        private void startTimer()
         {
             Device.StartTimer(TimeSpan.FromSeconds(5), () =>
             {
@@ -290,8 +307,8 @@ namespace ChatClientMobile.ViewModels.Chat
         private async void fetchChatList()
         {
             var httpClient = new HttpClient();
-            var myId = Application.Current.Properties["userID"].ToString();
-            var response = await httpClient.GetStringAsync(App.BaseApiUrl + "/chats/"+myId.ToString());
+            myId = Application.Current.Properties["userID"].ToString();
+            var response = await httpClient.GetStringAsync(App.BaseApiUrl + "/chats/"+ (myId.Length != 0?myId:"0"));
             var chatList = JsonConvert.DeserializeObject<List<RestChatModel>>(response);
             var _chatItemsNew = new ObservableCollection<ChatDetail> { };
             foreach (var singleChat in chatList)
@@ -326,7 +343,18 @@ namespace ChatClientMobile.ViewModels.Chat
                     });
 
             }
+            if(_chatItemsNew.Count == 0)
+            {
+                this.IsVisible = true;
+            }else
+            {
+                this.IsVisible = false;
+            }
+            if(this.ChatItems.Count <= _chatItemsNew.Count)
+            {
             this.ChatItems = _chatItemsNew;
+            }
+
         }
         private async Task<RestUserModel> fetchChatUserDetails(string id)
         {

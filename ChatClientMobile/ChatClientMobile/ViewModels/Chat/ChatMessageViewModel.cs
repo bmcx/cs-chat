@@ -24,7 +24,7 @@ namespace ChatClientMobile.ViewModels.Chat
         /// <summary>
         /// Stores the message text in an array. 
         /// </summary>
-        /*private readonly string[] descriptions = { "Hi, can you tell me the specifications of the Dell Inspiron 5370 laptop?",
+        private readonly string[] descriptions = { "Hi, can you tell me the specifications of the Dell Inspiron 5370 laptop?",
             " * Processor: Intel Core i5-8250U processor " +
             "\n" + " * OS: Pre-loaded Windows 10 with lifetime validity" +
             "\n" + " * Display: 13.3-inch FHD (1920 x 1080) LED display" +
@@ -32,7 +32,7 @@ namespace ChatClientMobile.ViewModels.Chat
             "\n" + " * Battery: Lithium battery",
             "How much battery life does it have with wifi and without?",
             "Approximately 5 hours with wifi. About 7 hours without.",
-        };*/
+        };
 
         private string profileName;
 
@@ -232,7 +232,11 @@ namespace ChatClientMobile.ViewModels.Chat
 
                 _messagesNew.Add(single.Type == 2 ? imageMsg : textMsg);
             }
-            this.ChatMessageInfo = _messagesNew;
+            if(this.ChatMessageInfo.Count <= _messagesNew.Count)
+            {
+                this.ChatMessageInfo = _messagesNew;
+            }
+           
         }
 
         private async void sendMessage(String message)
@@ -243,7 +247,7 @@ namespace ChatClientMobile.ViewModels.Chat
 
             var payload = "{\"chatId\": "+this.chatId.ToString()+"," +
                 "\"senderId\": "+(imOwner?"0":"1")+"," +
-                "\"body\": \""+ message +"\"," +
+                "\"body\": \""+ message.Trim() + "\"," +
                 "\"type\": 1," +
                 "\"timeStamp\": \""+DateTime.UtcNow.ToString("o")+ "\"" +
                 "}";
@@ -365,6 +369,7 @@ namespace ChatClientMobile.ViewModels.Chat
         private void CameraClicked(object obj)
         {
             // Do something
+            Helpers.Common.featureComingSoon();
         }
 
         /// <summary>
@@ -374,8 +379,9 @@ namespace ChatClientMobile.ViewModels.Chat
         private void AttachmentClicked(object obj)
         {
             // Do something
+            Helpers.Common.featureComingSoon();
         }
-
+       
         /// <summary>
         /// Invoked when the send button is clicked.
         /// </summary>

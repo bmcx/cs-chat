@@ -118,11 +118,36 @@
                     x:Name="MenuButton"
                     Command="{Binding MenuCommand}"
                     Style="{StaticResource NavigationBarButtonStyle}"
-                    Text="{StaticResource  Contact }" />
+                    ShowIcon="True"
+                    ImageSource="add_contact.png"/>
             </StackLayout>
 
             <BoxView BackgroundColor="{DynamicResource Gray-200}" HeightRequest="1" />
+            <StackLayout HorizontalOptions="Center" IsVisible="{Binding IsVisible}" VerticalOptions="Center">
 
+                <Label
+                    Margin="0,30"
+                        FontFamily="{StaticResource Montserrat-Medium}"
+                        HorizontalOptions="CenterAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Text="No friends to chat?"
+                        TextColor="{DynamicResource Gray-800}"
+                        VerticalTextAlignment="Center" />
+                
+                <buttons:SfButton
+                        x:Name="AddContactButton"
+                        Command="{Binding MenuCommand}"
+                        Text="Add Friends" 
+                        WidthRequest="120"
+                        FontSize="16"
+                        HeightRequest="40"
+                        CornerRadius="25"
+                    ShowIcon="True"
+                    ImageSource="add_contact_w.png"
+                        />
+   
+            </StackLayout>
+            
             <!--  Searchable List view  -->
             <controls:SearchableChatList
                 x:Name="ListView"

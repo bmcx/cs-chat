@@ -1,3 +1,4 @@
+using Syncfusion.XForms.iOS.Core;
 using Syncfusion.XForms.iOS.Cards;
 using Syncfusion.XForms.iOS.Graphics;
 using Syncfusion.XForms.iOS.BadgeView;
@@ -30,6 +31,7 @@ namespace ChatClientMobile.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+            Core.Init();
             SfCardViewRenderer.Init();
             SfBadgeViewRenderer.Init();
             SfListViewRenderer.Init();

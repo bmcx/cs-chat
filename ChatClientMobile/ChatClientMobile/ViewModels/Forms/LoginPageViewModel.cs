@@ -21,6 +21,7 @@ namespace ChatClientMobile.ViewModels.Forms
         #region Fields
 
         private string password;
+        private bool loading = false;
 
         #endregion
 
@@ -34,8 +35,8 @@ namespace ChatClientMobile.ViewModels.Forms
             this.LoginCommand = new Command(this.LoginClicked);
             this.SignUpCommand = new Command(this.SignUpClicked);
             this.ForgotPasswordCommand = new Command(this.ForgotPasswordClicked);
-            Application.Current.Properties["userEmail"] ="";
-            Application.Current.Properties["userID"] ="";
+            Application.Current.Properties["userEmail"] = "";
+            Application.Current.Properties["userID"] = "";
             Application.Current.Properties["userImage"] = "";
             Application.Current.Properties["userFullName"] = "";
             Application.Current.Properties["userPhone"] = "";
@@ -97,7 +98,7 @@ namespace ChatClientMobile.ViewModels.Forms
         private async void LoginClicked(object obj)
         {
 
-           
+
             var current = Connectivity.NetworkAccess;
 
             if (current == NetworkAccess.Internet)
@@ -105,8 +106,17 @@ namespace ChatClientMobile.ViewModels.Forms
                 var toastConfig = new ToastConfig("Please wait...");
                 toastConfig.SetDuration(3000);
                 toastConfig.SetBackgroundColor(System.Drawing.Color.FromArgb(12, 131, 193));
-                UserDialogs.Instance.Toast(toastConfig);
-                checkCreds();
+                if (!loading)
+                {
+                    loading = true;
+                    UserDialogs.Instance.Toast(toastConfig);
+                    checkCreds();
+                }
+                else
+                {
+                    UserDialogs.Instance.Toast(toastConfig);
+                }
+
             }
             else
             {
@@ -115,7 +125,7 @@ namespace ChatClientMobile.ViewModels.Forms
                 toastConfig.SetBackgroundColor(System.Drawing.Color.FromArgb(242, 76, 101));
                 UserDialogs.Instance.Toast(toastConfig);
             }
-            
+
 
         }
         private async void checkCreds()
@@ -124,7 +134,7 @@ namespace ChatClientMobile.ViewModels.Forms
             try
             {
                 var httpClient = new HttpClient();
-                var recentChatPage = new Views.Chat.RecentChatPage();
+
                 var payload = "{\"email\": \"" + this.Email + "\"," +
                     "\"password\": \"" + this.password + "\"" +
                     "}";
@@ -133,6 +143,7 @@ namespace ChatClientMobile.ViewModels.Forms
                 HttpResponseMessage result = await httpClient.PostAsync(url, c);
                 System.Diagnostics.Debug.WriteLine(result.Content.ReadAsStringAsync().Result);
                 var users = JsonConvert.DeserializeObject<List<RestUserModel>>(result.Content.ReadAsStringAsync().Result);
+                loading = false;
                 if (users.Count == 1)
                 {
                     Application.Current.Properties["userEmail"] = users[0].Email;
@@ -140,8 +151,10 @@ namespace ChatClientMobile.ViewModels.Forms
                     Application.Current.Properties["userImage"] = users[0].Image;
                     Application.Current.Properties["userFullName"] = users[0].FirstName + " " + users[0].LastName;
                     Application.Current.Properties["userPhone"] = users[0].Phone;
+
                     await Application.Current.SavePropertiesAsync();
                     await Task.Delay(2000);
+                    var recentChatPage = new Views.Chat.RecentChatPage();
                     await Application.Current.MainPage.Navigation.PushAsync(recentChatPage);
                 }
                 else
@@ -155,7 +168,8 @@ namespace ChatClientMobile.ViewModels.Forms
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine("E: "+e);
+                loading = false;
+                System.Diagnostics.Debug.WriteLine("E: " + e);
             }
 
 

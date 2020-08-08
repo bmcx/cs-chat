@@ -101,6 +101,7 @@ namespace ChatClientMobile.ViewModels.Profile
         private void EditButtonClicked(object obj)
         {
             // Do something
+            Helpers.Common.featureComingSoon();
         }
 
         /// <summary>

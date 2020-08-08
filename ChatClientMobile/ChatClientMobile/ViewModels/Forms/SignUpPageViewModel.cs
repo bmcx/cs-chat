@@ -146,12 +146,12 @@ namespace ChatClientMobile.ViewModels.Forms
             {
                 var httpClient = new HttpClient();
 
-                var payload = "{\"firstName\": \"" + this.firstName + "\"," +
-                    "\"lastName\": \"" + this.lastName + "\"," +
-                    "\"email\": \"" + base.Email + "\"," +
-                    "\"phone\":  \"" + this.phone + "\"," +
-                    "\"image\":  \"https://avatar.oxro.io/avatar.jpg?name=" + this.firstName + "+" + this.lastName + "\"," +
-                    "\"password\": \"" + this.password + "\"" +
+                var payload = "{\"firstName\": \"" + this.firstName.Trim() + "\"," +
+                    "\"lastName\": \"" + this.lastName.Trim() + "\"," +
+                    "\"email\": \"" + base.Email.Trim() + "\"," +
+                    "\"phone\":  \"" + this.phone.Trim() + "\"," +
+                    "\"image\":  \"https://api.adorable.io/avatars/128/" + this.firstName.Trim() + ".png\"," +
+                    "\"password\": \"" + this.password.Trim() + "\"" +
                     "}";
                 var url = new Uri(App.BaseApiUrl + "/users");
                 HttpContent c = new StringContent(payload, Encoding.UTF8, "application/json");
